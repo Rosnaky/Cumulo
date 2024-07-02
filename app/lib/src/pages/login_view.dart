@@ -1,7 +1,11 @@
+import "package:app/src/firebase/auth.dart";
+import "package:app/src/pages/home_view.dart";
 import "package:app/src/pages/register_view.dart";
 import "package:app/src/utils/constants.dart";
 import "package:app/src/utils/theme.dart";
 import "package:app/src/widgets/text_field_input.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 
 class LoginView extends StatefulWidget {
@@ -13,22 +17,63 @@ class LoginView extends StatefulWidget {
   State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
   final TextEditingController emailTextEditingController =
       TextEditingController();
   final TextEditingController passwordTextEditingController =
       TextEditingController();
   bool _isLoading = false;
 
+  late AnimationController progressController;
+
+  @override
+  void initState() {
+    super.initState();
+    _isLoading = false;
+    progressController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+  }
+
   @override
   void dispose() {
     super.dispose();
+    progressController.dispose();
     emailTextEditingController.dispose();
     passwordTextEditingController.dispose();
   }
 
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    Auth()
+        .login(
+            email: emailTextEditingController.text,
+            password: passwordTextEditingController.text)
+        .then((value) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, HomeView.routeName, (route) => false);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) =>
+                Navigator.pushNamedAndRemoveUntil(
+                    context, HomeView.routeName, (route) => false));
+          }
+          return LoginPage();
+        });
+  }
+
+  Scaffold LoginPage() {
     return Scaffold(
       appBar: AppBar(),
       body: LayoutBuilder(builder: (context, constraints) {
@@ -50,7 +95,7 @@ class _LoginViewState extends State<LoginView> {
                     color: cumuloTheme.colorScheme.primary),
               ),
               SizedBox(height: constraints.maxHeight * 0.1),
-              loginCredentials(constraints),
+              LoginCredentials(constraints),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Container(
@@ -112,7 +157,7 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Container loginCredentials(BoxConstraints constraints) {
+  Container LoginCredentials(BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.9,
       decoration: BoxDecoration(
@@ -141,30 +186,34 @@ class _LoginViewState extends State<LoginView> {
                         isPassword: true,
                         textInputType: TextInputType.visiblePassword),
                     SizedBox(height: constraints.maxHeight * 0.03),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: Theme.of(context).colorScheme.primary,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.onPrimary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _isLoading = true;
-                        });
-                      },
-                      child: const SizedBox(
-                          width: 80,
-                          height: 30,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("Login"),
-                            ],
-                          )),
-                    ),
+                    _isLoading
+                        ? LinearProgressIndicator(
+                            value: progressController.value)
+                        : TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.onPrimary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                loginUser();
+                              });
+                            },
+                            child: const SizedBox(
+                                width: 80,
+                                height: 30,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Login"),
+                                  ],
+                                )),
+                          ),
                     SizedBox(height: constraints.maxHeight * 0.03),
                   ],
                 ),

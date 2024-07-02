@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1026841261942",
+    "firebase_url": "https://cumulosoaring-default-rtdb.firebaseio.com",
+    "project_id": "cumulosoaring",
+    "storage_bucket": "cumulosoaring.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026841261942:android:6d68145516c2350b752c57",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1026841261942-cp49qhtnu7auktqccd4ad8ldtjh6e9ih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0OsIA1eStOxlxpY6Kt4ffBI6VmjldNLY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1026841261942-cp49qhtnu7auktqccd4ad8ldtjh6e9ih.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

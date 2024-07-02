@@ -10,7 +10,9 @@ environment:
   sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
+  cloud_firestore: ^4.14.0
   firebase_auth: ^4.16.0
+  firebase_core: ^2.24.2
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -34,5 +36,5 @@ flutter:
 
   fonts:
     - family: Comfortaa
-    - fonts:
+      fonts:
         - asset: assets/fonts/Comfortaa-VariableFont_wght.ttf
