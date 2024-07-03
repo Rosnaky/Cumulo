@@ -50,19 +50,26 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
       _isLoading = true;
     });
 
-    Auth()
+    await Auth()
         .login(
             email: emailTextEditingController.text,
             password: passwordTextEditingController.text)
         .then((value) async {
-      await UserProvider().refreshUser();
-      WidgetsBinding.instance.addPostFrameCallback((_) =>
-          Navigator.pushNamedAndRemoveUntil(
-              context, HomeView.routeName, (route) => false));
+      if (value == "Success") {
+        await Provider.of<UserProvider>(context, listen: false).refreshUser();
+        WidgetsBinding.instance.addPostFrameCallback((_) =>
+            Navigator.pushNamedAndRemoveUntil(
+                context, HomeView.routeName, (route) => false));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(value),
+        ));
+      }
     });
 
-    Future.microtask(
-        () => Provider.of<UserProvider>(context, listen: false).refreshUser());
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override

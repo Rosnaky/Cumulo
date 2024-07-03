@@ -415,7 +415,7 @@ class _RegisterViewState extends State<RegisterView>
       _isLoading = true;
     });
 
-    Auth()
+    await Auth()
         .register(
       email: emailTextEditingController.text,
       password: passwordTextEditingController.text,
@@ -423,12 +423,14 @@ class _RegisterViewState extends State<RegisterView>
       lastName: lastNameTextEditingController.text,
       dateOfBirth: _dateOfBirth,
     )
-        .then((value) {
+        .then((value) async {
       setState(() {
         _isLoading = false;
       });
       if (value == "Success") {
-        Navigator.pushNamed(context, SplashView.routeName);
+        await Provider.of<UserProvider>(context, listen: false).refreshUser();
+        WidgetsBinding.instance.addPostFrameCallback(
+            (_) => Navigator.pushNamed(context, SplashView.routeName));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -438,7 +440,5 @@ class _RegisterViewState extends State<RegisterView>
         );
       }
     });
-    Future.microtask(
-        () => Provider.of<UserProvider>(context, listen: false).refreshUser());
   }
 }
