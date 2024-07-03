@@ -45,11 +45,11 @@ app.*.map.json
 
 
 # Firebase
-.firebaserc
-database.rules.json
-firebase.json
-firebase-debug.log
-firestore.indexes.json
-firestore.rules
-storage.rules
+# .firebaserc
+# database.rules.json
+# firebase.json
+# firebase-debug.log
+# firestore.indexes.json
+# firestore.rules
+# storage.rules
 .firebase/
