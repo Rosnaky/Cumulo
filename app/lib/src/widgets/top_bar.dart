@@ -20,8 +20,10 @@ class _TopBarState extends State<TopBar> {
   void initState() {
     super.initState();
     // Fetch user details when the widget is initialized
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    userProvider.refreshUser();
+    Future.microtask(() {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.refreshUser();
+    });
   }
 
   @override

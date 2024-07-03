@@ -8,6 +8,7 @@ import "package:app/src/widgets/text_field_input.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -59,6 +60,9 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
       Navigator.pushNamedAndRemoveUntil(
           context, HomeView.routeName, (route) => false);
     });
+
+    Future.microtask(
+        () => Provider.of<UserProvider>(context, listen: false).refreshUser());
   }
 
   @override
