@@ -1,11 +1,7 @@
-import 'package:app/src/pages/login_view.dart';
-import 'package:app/src/providers/user_provider.dart';
 import 'package:app/src/utils/constants.dart';
 import 'package:app/src/widgets/bottom_navigation_bar.dart';
 import 'package:app/src/widgets/top_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});

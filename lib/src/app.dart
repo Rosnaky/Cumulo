@@ -3,13 +3,10 @@ import 'package:app/src/pages/settings_view.dart';
 import 'package:app/src/pages/splash_view.dart';
 import 'package:app/src/pages/login_view.dart';
 import 'package:app/src/pages/register_view.dart';
-import 'package:app/src/providers/user_provider.dart';
 import 'package:app/src/utils/theme.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:provider/provider.dart';
 
 /// The Widget that configures your application.
 class Cumulo extends StatelessWidget {

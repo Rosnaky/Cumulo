@@ -6,7 +6,6 @@ import "package:app/src/utils/constants.dart";
 import "package:app/src/utils/theme.dart";
 import "package:app/src/widgets/text_field_input.dart";
 import "package:firebase_auth/firebase_auth.dart";
-import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
@@ -57,8 +56,9 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
             password: passwordTextEditingController.text)
         .then((value) async {
       await UserProvider().refreshUser();
-      Navigator.pushNamedAndRemoveUntil(
-          context, HomeView.routeName, (route) => false);
+      WidgetsBinding.instance.addPostFrameCallback((_) =>
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeView.routeName, (route) => false));
     });
 
     Future.microtask(
@@ -75,11 +75,11 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
                 Navigator.pushNamedAndRemoveUntil(
                     context, HomeView.routeName, (route) => false));
           }
-          return LoginPage();
+          return loginPage();
         });
   }
 
-  Scaffold LoginPage() {
+  Scaffold loginPage() {
     return Scaffold(
       appBar: AppBar(),
       body: LayoutBuilder(builder: (context, constraints) {
@@ -101,7 +101,7 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
                     color: cumuloTheme.colorScheme.primary),
               ),
               SizedBox(height: constraints.maxHeight * 0.1),
-              LoginCredentials(constraints),
+              loginCredentials(constraints),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Container(
@@ -157,13 +157,13 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
             ],
           );
         } else {
-          return Text("Desktop view");
+          return const Text("Desktop view");
         }
       }),
     );
   }
 
-  Container LoginCredentials(BoxConstraints constraints) {
+  Container loginCredentials(BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.9,
       decoration: BoxDecoration(

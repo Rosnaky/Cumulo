@@ -1,4 +1,3 @@
-import 'package:app/src/models/firebase_user.dart';
 import 'package:app/src/pages/settings_view.dart';
 import 'package:app/src/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +57,7 @@ class _TopBarState extends State<TopBar> {
                   ),
                 ],
               ),
-              Spacer(flex: 1),
+              const Spacer(flex: 1),
               IconButton(
                 icon: Icon(Icons.account_circle_rounded,
                     size: constraints.maxHeight * 0.05),
