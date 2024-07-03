@@ -32,19 +32,6 @@ class _RegisterViewState extends State<RegisterView>
 
   late AnimationController progressController;
 
-  @override
-  void initState() {
-    super.initState();
-
-    progressController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 5),
-    )..addListener(() {
-        setState(() {});
-      });
-    progressController.repeat();
-  }
-
   bool _isLoading = false;
   DateTime? _dateOfBirth;
   int _step = 0;
@@ -64,9 +51,20 @@ class _RegisterViewState extends State<RegisterView>
   };
 
   @override
-  void dispose() {
-    super.dispose();
+  void initState() {
+    super.initState();
 
+    progressController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 5),
+    )..addListener(() {
+        setState(() {});
+      });
+    progressController.repeat();
+  }
+
+  @override
+  void dispose() {
     progressController.dispose();
     emailTextEditingController.dispose();
     passwordTextEditingController.dispose();
@@ -74,6 +72,8 @@ class _RegisterViewState extends State<RegisterView>
     firstNameTextEditingController.dispose();
     lastNameTextEditingController.dispose();
     _step = 0;
+
+    super.dispose();
   }
 
   @override

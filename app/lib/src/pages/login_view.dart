@@ -1,6 +1,7 @@
 import "package:app/src/firebase/auth.dart";
 import "package:app/src/pages/home_view.dart";
 import "package:app/src/pages/register_view.dart";
+import "package:app/src/providers/user_provider.dart";
 import "package:app/src/utils/constants.dart";
 import "package:app/src/utils/theme.dart";
 import "package:app/src/widgets/text_field_input.dart";
@@ -38,10 +39,10 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    super.dispose();
     progressController.dispose();
     emailTextEditingController.dispose();
     passwordTextEditingController.dispose();
+    super.dispose();
   }
 
   void loginUser() async {
@@ -53,7 +54,8 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
         .login(
             email: emailTextEditingController.text,
             password: passwordTextEditingController.text)
-        .then((value) {
+        .then((value) async {
+      await UserProvider().refreshUser();
       Navigator.pushNamedAndRemoveUntil(
           context, HomeView.routeName, (route) => false);
     });
