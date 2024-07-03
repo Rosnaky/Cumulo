@@ -2,11 +2,13 @@ import "package:app/src/firebase/auth.dart";
 import "package:app/src/pages/home_view.dart";
 import 'package:app/src/pages/splash_view.dart';
 import "package:app/src/pages/login_view.dart";
+import "package:app/src/providers/user_provider.dart";
 import "package:app/src/utils/constants.dart";
 import "package:app/src/utils/theme.dart";
 import "package:app/src/widgets/text_field_input.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -32,19 +34,6 @@ class _RegisterViewState extends State<RegisterView>
 
   late AnimationController progressController;
 
-  @override
-  void initState() {
-    super.initState();
-
-    progressController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 5),
-    )..addListener(() {
-        setState(() {});
-      });
-    progressController.repeat();
-  }
-
   bool _isLoading = false;
   DateTime? _dateOfBirth;
   int _step = 0;
@@ -64,9 +53,20 @@ class _RegisterViewState extends State<RegisterView>
   };
 
   @override
-  void dispose() {
-    super.dispose();
+  void initState() {
+    super.initState();
 
+    progressController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 5),
+    )..addListener(() {
+        setState(() {});
+      });
+    progressController.repeat();
+  }
+
+  @override
+  void dispose() {
     progressController.dispose();
     emailTextEditingController.dispose();
     passwordTextEditingController.dispose();
@@ -74,6 +74,8 @@ class _RegisterViewState extends State<RegisterView>
     firstNameTextEditingController.dispose();
     lastNameTextEditingController.dispose();
     _step = 0;
+
+    super.dispose();
   }
 
   @override
@@ -436,5 +438,7 @@ class _RegisterViewState extends State<RegisterView>
         );
       }
     });
+    Future.microtask(
+        () => Provider.of<UserProvider>(context, listen: false).refreshUser());
   }
 }

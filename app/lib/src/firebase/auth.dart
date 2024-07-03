@@ -1,4 +1,4 @@
-import 'package:app/src/models/user.dart' as userModel;
+import 'package:app/src/models/firebase_user.dart' as userModel;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -53,7 +53,7 @@ class Auth {
         UserCredential userCredential = await _auth
             .createUserWithEmailAndPassword(email: email, password: password);
 
-        userModel.User user = userModel.User(
+        userModel.FirebaseUser user = userModel.FirebaseUser(
           firstName: firstName,
           lastName: lastName,
           email: email,
@@ -83,12 +83,12 @@ class Auth {
     return res;
   }
 
-  Future<userModel.User> getUserDetails() async {
+  Future<userModel.FirebaseUser> getUserDetails() async {
     User user = _auth.currentUser!;
 
     DocumentSnapshot snap =
         await _firestore.collection("users").doc(user.uid).get();
 
-    return userModel.User.fromSnap(snap);
+    return userModel.FirebaseUser.fromSnap(snap);
   }
 }

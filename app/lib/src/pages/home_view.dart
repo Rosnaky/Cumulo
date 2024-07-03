@@ -1,6 +1,11 @@
 import 'package:app/src/pages/login_view.dart';
+import 'package:app/src/providers/user_provider.dart';
+import 'package:app/src/utils/constants.dart';
+import 'package:app/src/widgets/bottom_navigation_bar.dart';
+import 'package:app/src/widgets/top_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -12,11 +17,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  Future<void> logout() async {
-    await FirebaseAuth.instance.signOut();
-    Navigator.pushNamedAndRemoveUntil(
-        context, LoginView.routeName, (route) => false);
-  }
+  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -25,10 +26,32 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(),
-        body: Column(
-          children: [ElevatedButton(onPressed: logout, child: Text("Log out"))],
-        ));
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth < responsiveSizeThreshold) {
+        return Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+            bottomNavigationBar: BottomNavBar(
+              selectedIndex: 0,
+              onDestinationSelected: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+            ),
+            body: Column(
+              children: [
+                TopBar(
+                  constraints: constraints,
+                ),
+              ],
+            ));
+      } else {
+        return const Text("Desktop View");
+      }
+    });
   }
 }

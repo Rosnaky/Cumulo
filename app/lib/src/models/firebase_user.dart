@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
+class FirebaseUser {
   final String firstName;
   final String lastName;
   final String email;
   final DateTime dateOfBirth;
   final String uid;
 
-  const User({
+  const FirebaseUser({
     required this.firstName,
     required this.lastName,
     required this.email,
@@ -23,8 +23,8 @@ class User {
         "uid": uid,
       };
 
-  static User fromSnap(DocumentSnapshot snap) {
-    return User(
+  static FirebaseUser fromSnap(DocumentSnapshot snap) {
+    return FirebaseUser(
       firstName: snap.get("firstName"),
       lastName: snap.get("lastName"),
       email: snap.get("email"),
