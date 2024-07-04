@@ -1,6 +1,7 @@
 import 'package:app/src/utils/constants.dart';
 import 'package:app/src/widgets/bottom_navigation_bar.dart';
 import 'package:app/src/widgets/top_bar.dart';
+import 'package:app/src/widgets/weather_preview.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {
@@ -43,6 +44,12 @@ class _HomeViewState extends State<HomeView> {
                 TopBar(
                   constraints: constraints,
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: WeatherPreview(
+                    constraints: constraints,
+                  ),
+                )
               ],
             ));
       } else {
