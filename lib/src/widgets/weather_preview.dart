@@ -33,7 +33,6 @@ class _WeatherPreviewState extends State<WeatherPreview> {
       });
       _getCurrentGeocodeData();
       _getCurrentWeatherData();
-      // print("${_currentPosition?.latitude} ${_currentPosition?.longitude}");
     });
   }
 

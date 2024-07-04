@@ -242,6 +242,16 @@ class _RegisterViewState extends State<RegisterView>
                         ),
                       ),
                       onPressed: () {
+                        if (passwordTextEditingController.text !=
+                            confirmPasswordTextEditingController.text) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Passwords do not match"),
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
+                          return;
+                        }
                         setState(() {
                           _step = 1;
                         });
