@@ -1,3 +1,6 @@
+// ignore_for_file: unused_import
+
+import 'package:app/src/firebase/auth.dart';
 import 'package:app/src/pages/login_view.dart';
 import 'package:app/src/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +17,7 @@ class SettingsView extends StatefulWidget {
 
 class _SettingsViewState extends State<SettingsView> {
   Future<void> logout() async {
-    await FirebaseAuth.instance.signOut();
+    await Auth().logout();
     WidgetsBinding.instance.addPostFrameCallback((_) =>
         Navigator.pushNamedAndRemoveUntil(
             context, LoginView.routeName, (route) => false));
@@ -33,7 +36,7 @@ class _SettingsViewState extends State<SettingsView> {
             ],
           ));
         } else {
-          return Text("Desktop View");
+          return const Text("Desktop View");
         }
       }),
     );

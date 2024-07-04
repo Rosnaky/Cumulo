@@ -83,12 +83,20 @@ class Auth {
     return res;
   }
 
-  Future<userModel.FirebaseUser> getUserDetails() async {
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
+
+  Future<userModel.FirebaseUser?> getUserDetails() async {
     User user = _auth.currentUser!;
 
-    DocumentSnapshot snap =
-        await _firestore.collection("users").doc(user.uid).get();
-
-    return userModel.FirebaseUser.fromSnap(snap);
+    try {
+      DocumentSnapshot snap =
+          await _firestore.collection("users").doc(user.uid).get();
+      return userModel.FirebaseUser.fromSnap(snap);
+    } on Exception {
+      Auth().logout();
+    }
+    return null;
   }
 }
