@@ -55,4 +55,4 @@ app.*.map.json
 .firebase/
 
 # Secrets
-/assets/.env
+# /assets/.env
