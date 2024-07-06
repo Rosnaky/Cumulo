@@ -212,11 +212,7 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            onPressed: () {
-                              setState(() {
-                                loginUser();
-                              });
-                            },
+                            onPressed: () => loginUser(),
                             child: const SizedBox(
                                 width: 80,
                                 height: 30,
